@@ -1,0 +1,21 @@
+#!/bin/bash
+exec >rt-trace-bpf-stop-stderrout.txt
+exec 2>&1
+
+echo "args: $@"
+echo "hostname: `hostname`"
+
+if [ -e rt-trace-bpf-pids.txt ]; then
+    while read pid; do
+	echo "killing ${pid}"
+        kill -s SIGINT $pid
+    done < rt-trace-bpf-pids.txt
+
+    xz --verbose --threads=0 rt-trace-bpf-stderrout.txt
+else
+    echo "Could not find rt-trace-bpf-pids.txt"
+    echo "PWD: `/bin/pwd`"
+    echo "LS:"
+    /bin/ls -l
+    exit 1
+fi

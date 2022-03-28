@@ -1,0 +1,53 @@
+#!/bin/bash
+exec >rt-trace-bpf-start-stderrout.txt
+exec 2>&1
+
+echo "args: $@"
+echo "pwd: `/bin/pwd`"
+echo "hostname: `hostname`"
+
+cpu_list=""
+
+longopts="cpu-list:"
+opts=$(getopt -q -o "" --longoptions "$longopts" -n "getopt.sh" -- "$@");
+if [ $? -ne 0 ]; then
+    printf -- "\tUnrecognized option specified\n\n"
+    exit 1
+fi
+eval set -- "$opts";
+while true; do
+    case "$1" in
+        --cpu-list)
+            shift;
+            cpu_list=${1}
+            echo "cpu_list=${cpu_list}"
+            shift;
+            ;;
+        --)
+            shift;
+            break
+            ;;
+        *)
+            echo "Invalid option: $1"
+            exit 1
+    esac
+done
+
+/bin/rm -f rt-trace-bpf-pids.txt
+
+if [ -z "${cpu_list}" ]; then
+    echo "ERROR: You must define --cpu-list for rt-trace-bpf to work"
+    exit 1
+fi
+
+if ! grep -q debugfs /proc/mounts; then
+    echo "Mounting debugfs at /sys/kernel/debug"
+    mount -v -t debugfs none /sys/kernel/debug
+fi
+
+cmd="/root/rt-trace-bpf/rt-trace-bcc.py --cpu-list ${cpu_list} --summary --backtrace"
+echo "About to run: ${cmd}"
+${cmd} > rt-trace-bpf-stderrout.txt
+rt_trace_bpf_pid=$!
+echo "${rt_trace_bpf_pid}" >> rt-trace-bpf-pids.txt
+echo "rt-trace-bpf pid is ${rt_trace_bpf_pid}"
