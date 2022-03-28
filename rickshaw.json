@@ -1,0 +1,37 @@
+{
+    "rickshaw-tool": {
+        "schema": {
+            "version": "2020.03.18"
+        }
+    },
+    "tool": "rt-trace-bpf",
+    "controller": {
+        "post-script": "%tool-dir%rt-trace-bpf-post-process"
+    },
+    "collector": {
+        "files-from-controller": [
+            {
+                "src": "%tool-dir%/rt-trace-bpf-start",
+                "dest": "/usr/bin/"
+            },
+            {
+                "src": "%tool-dir%/rt-trace-bpf-stop",
+                "dest": "/usr/bin/"
+            }
+        ],
+        "blacklist": [
+            {
+                "endpoint": "k8s",
+                "collector-types": [ "client", "server" ]
+            }
+        ],
+        "whitelist": [
+            {
+                "endpoint": "k8s",
+                "collector-types": [ "master", "worker" ]
+            }
+        ],
+        "start": "rt-trace-bpf-start",
+        "stop": "rt-trace-bpf-stop"
+      }
+}

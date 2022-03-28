@@ -1,0 +1,56 @@
+{
+    "workshop": {
+        "schema": {
+            "version": "2020.03.02"
+        }
+    },
+    "userenvs": [
+        {
+            "name": "default",
+            "requirements": [
+		"distro-deps",
+		"bcc",
+                "rt-trace-bpf"
+            ]
+        }
+    ],
+    "requirements": [
+	{
+	    "name": "distro-deps",
+	    "type": "distro",
+	    "distro_info": {
+		"packages": [
+		    "cmake",
+		    "clang", 
+		    "clang-devel",
+		    "llvm",
+		    "llvm-devel",
+		    "llvm-static",
+		    "ncurses-devel"
+		]
+	    }
+	},
+	{
+	    "name": "bcc",
+	    "type": "manual",
+	    "manual_info": {
+		"commands": [
+		    "git clone https://github.com/iovisor/bcc.git /root/bcc",
+		    "mkdir /root/bcc/build",
+		    "cd /root/bcc/build; cmake -DENABLE_LLVM_SHARED=1 ..",
+		    "cd /root/bcc/build; make",
+		    "cd /root/bcc/build; make install"
+		]
+	    }
+	},
+	{
+	    "name": "rt-trace-bpf",
+	    "type": "manual",
+	    "manual_info": {
+		"commands": [
+		    "git clone https://github.com/xzpeter/rt-trace-bpf.git /root/rt-trace-bpf"
+		]
+	    }
+	}
+    ]
+}
