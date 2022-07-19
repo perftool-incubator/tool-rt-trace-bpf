@@ -7,11 +7,11 @@ echo "hostname: `hostname`"
 
 if [ -e rt-trace-bpf-pids.txt ]; then
     while read pid; do
-	echo "killing ${pid}"
+    echo "killing ${pid}"
         kill -s SIGINT $pid
     done < rt-trace-bpf-pids.txt
 
-    xz --verbose --threads=0 rt-trace-bpf-stderrout.txt
+    xz --verbose --threads=1 rt-trace-bpf-stderrout.txt
 else
     echo "Could not find rt-trace-bpf-pids.txt"
     echo "PWD: `/bin/pwd`"
