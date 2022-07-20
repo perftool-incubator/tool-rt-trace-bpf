@@ -7,8 +7,15 @@ echo "hostname: `hostname`"
 
 if [ -e rt-trace-bpf-pids.txt ]; then
     while read pid; do
-	echo "killing ${pid}"
+    echo "killing ${pid}"
         kill -s SIGINT $pid
+    done < rt-trace-bpf-pids.txt
+
+    while read pid; do
+        while ps -p $pid > /dev/null; do
+            echo "$pid is still running, sleeping a sec to wait the process to exit..."
+            sleep 1
+        done
     done < rt-trace-bpf-pids.txt
 
     xz --verbose --threads=0 rt-trace-bpf-stderrout.txt
