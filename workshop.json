@@ -26,7 +26,8 @@
 		    "llvm",
 		    "llvm-devel",
 		    "llvm-static",
-		    "ncurses-devel"
+		    "ncurses-devel",
+            "kmod"
 		]
 	    }
 	},
