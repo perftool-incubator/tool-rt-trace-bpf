@@ -27,7 +27,8 @@
 		    "llvm-devel",
 		    "llvm-static",
 		    "ncurses-devel",
-            "kmod"
+                    "kmod",
+		    "python3-setuptools"
 		]
 	    }
 	},
