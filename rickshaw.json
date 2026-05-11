@@ -6,7 +6,7 @@
     },
     "tool": "rt-trace-bpf",
     "controller": {
-        "post-script": "%tool-dir%rt-trace-bpf-post-process"
+        "post-script": "%tool-dir%rt-trace-bpf-post-process.py"
     },
     "collector": {
         "files-from-controller": [
