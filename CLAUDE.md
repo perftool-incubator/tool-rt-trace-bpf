@@ -5,7 +5,7 @@ BCC-based real-time kernel tracing tool. Captures kernel trace events using eBPF
 
 ## Languages
 - Bash: start/stop scripts (`rt-trace-bpf-start`, `rt-trace-bpf-stop`)
-- Perl: post-processor (`rt-trace-bpf-post-process`, stub — uses `toolbox::metrics`, `toolbox::json`, `toolbox::cpu` from `$TOOLBOX_HOME/perl`)
+- Python: post-processor (`rt-trace-bpf-post-process.py`, stub)
 
 ## Key Files
 | File | Purpose |
